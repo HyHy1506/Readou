@@ -1,7 +1,6 @@
-// const APILINK = 'https://voluminousdistantsubweb.ductran81.repl.co/api/v1/storys/story';
-// const APILINK="http://localhost:8000/api/v1/storys/story"
-const APILINKstory = 'https://voluminousdistantsubweb.ductran81.repl.co/api/v1/storys/';
-const APILINKchap = 'https://voluminousdistantsubweb.ductran81.repl.co/api/v1/chaps/';
+
+import { APILINKstory, APILINKchap } from "./api.js";
+
 function toStory(storyId)
 {
 
@@ -42,9 +41,10 @@ function getAllStory()
             div_new+=`<div class="partHome"   >`
             div_new+=
             `
-                <div class="imgHome" ${stylePart} onclick="toStory('${element.storyId}')"></div>
+
+                <div class="imgHome" ${stylePart}  dataId=${element.storyId}></div>
                 <div class="titAndDes">
-                <h4 class="titleHome" onclick="toStory('${element.storyId}')">${element.title}</h4>
+                <h4 class="titleHome"  dataId=${element.storyId}>${element.title}</h4>
                 <p class="descriptionHome">${element.description}</p>
                 <p id="${element.storyId}"  class="infoStory"></p>
                 </div>
@@ -57,6 +57,20 @@ function getAllStory()
       
        $(".coverLoader").hide()
 
+       clickImgHome()
+        clickH4titleHome()
 
     })
+}
+function clickImgHome()
+{
+    $('.imgHome').on('click',function(){
+       toStory($(this).attr('dataId'))
+    })
+}
+function clickH4titleHome()
+{
+    $('.titleHome').on('click',function(){
+        toStory($(this).attr('dataId'))
+     })
 }

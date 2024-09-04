@@ -1,14 +1,13 @@
-// const APILINK = 'https://voluminousdistantsubweb.ductran81.repl.co/api/v1/storys/';
 
-// const APILINK = "http://localhost:8000/api/v1/storys/";
-const APILINKstory = 'https://voluminousdistantsubweb.ductran81.repl.co/api/v1/storys/';
-const APILINKchap = 'https://voluminousdistantsubweb.ductran81.repl.co/api/v1/chaps/';
+import { APILINKstory, APILINKchap } from "./api.js";
+
 const main = document.getElementById("part");
 
 // const titleNewStory = document.getElementById("titleNewStory");
 // const descriptionNewStory = document.getElementById("descriptionNewStory");
 // const urlImageNewStory = document.getElementById("urlImageNewStory");
-// <input id="urlImageNewStory" type="text" name="image" placeholder="URL ảnh"> 
+
+// <input id="urlImageNewStory" type="text" name="image" placeholder="URL ảnh">
 
 const div_new = document.createElement("div");
 div_new.classList.add("partNewStory");
@@ -20,11 +19,17 @@ div_new.innerHTML = `
 <input type="text" id="titleNewStory"  name="title" placeholder="Tiêu đề" required ">
 
 <textarea id="descriptionNewStory" name="" id="" cols="30" rows="30" placeholder="Miêu tả" ></textarea>
- <button type="submit" class="button" onclick="saveReview('titleNewStory','urlImageNewStory','descriptionNewStory')">Tiếp</button>
+
+ <button type="submit" class="button">Tiếp</button>
 </form>
 `;
 main.appendChild(div_new);
-$(".coverLoader").hide()
+console.log("1");
+$("form").submit(function (event) {
+  event.preventDefault();
+});
+
+$(".coverLoader").hide();
 
 let randomId = -1;
 getRandomId();
@@ -41,11 +46,16 @@ function getRandomId() {
       console.log(randomId);
     });
 }
-function saveReview(titleId, urlImageID, descriptionId) {
-  document.querySelector("form").addEventListener("submit", (event) => {
-    event.preventDefault();
-  });
 
+$("form button").on("click", saveReview);
+document.querySelector("form").addEventListener("submit", (event) => {
+  event.preventDefault();
+});
+function saveReview() {
+
+  let titleId = "titleNewStory"
+  let urlImageID = "urlImageNewStory"
+  let descriptionId = "descriptionNewStory"
   while (randomId == -1) {
     console.log(randomId);
   }
@@ -58,7 +68,8 @@ function saveReview(titleId, urlImageID, descriptionId) {
   if (title == "") {
     return;
   }
-  $(".coverLoader").show()
+
+  $(".coverLoader").show();
 
   fetch(APILINKstory + "new", {
     method: "POST",
@@ -76,7 +87,8 @@ function saveReview(titleId, urlImageID, descriptionId) {
     .then((res) => res.json())
     .then((res) => {
       console.log(res);
-  $(".coverLoader").fadeOut(500)
+
+      $(".coverLoader").fadeOut(500);
 
       while (res.status != "success");
 
@@ -87,6 +99,6 @@ function saveReview(titleId, urlImageID, descriptionId) {
 }
 function auto_grow(element) {
   element.style.height = "auto";
- element.style.height = (element.scrollHeight) + "px";
 
+  element.style.height = element.scrollHeight + "px";
 }

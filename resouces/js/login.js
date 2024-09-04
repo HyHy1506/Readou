@@ -1,5 +1,7 @@
 let rName="duc"
 let rPass="123"
+
+$('.formLogin').on('submit',grantPermissionsLogin)
 function grantPermissionsLogin()
 {
     const name=document.getElementById("name").value

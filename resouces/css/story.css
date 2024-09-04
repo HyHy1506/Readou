@@ -76,4 +76,24 @@
     line-height: 25px;
     word-break: keep-all;
     overflow: hidden;
+
+}
+@media (max-width:800px) {
+    .storyHead{
+        
+        height: 200px;
+    }
+    .imgStory {
+
+        height: 200px;
+    width: 130px;
+    }
+    .titleAndBtnStory{
+        margin-left: 10px;
+        width: 50%;
+    }
+    .titleAndBtnStory h1{
+        font-size: 20px;
+        line-height: 26px;
+    }
 }

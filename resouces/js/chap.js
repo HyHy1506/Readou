@@ -1,7 +1,7 @@
 // const APILINKchap = "http://localhost:8000/api/v1/chaps/";
 // const APILINKstory = "http://localhost:8000/api/v1/storys/";
-const APILINKstory = 'https://voluminousdistantsubweb.ductran81.repl.co/api/v1/storys/';
-const APILINKchap = 'https://voluminousdistantsubweb.ductran81.repl.co/api/v1/chaps/';
+
+import { APILINKstory, APILINKchap } from "./api.js";
 var storyId;
 var chapId;
 
@@ -53,13 +53,23 @@ function getContentChap() {
               liOfUlNavi.setAttribute("id", "liChosen");
               contentNextChap = dataLiChaps[i + 1];
             } else {
-              liOfUlNavi.setAttribute(
-                "onclick",
-                `toChap(${dataLiChaps[i].chapId})`
-              );
+
+              liOfUlNavi.setAttribute("dataId", dataLiChaps[i].chapId);
             }
             ul_navi_chaps.insertAdjacentElement("beforeend", liOfUlNavi);
           }
+
+          // make comeStory
+          fetch(APILINKstory + "story/" + storyId) // get all chaps of storyid
+            .then((res) => res.json())
+            .then((dataOneStory) => {
+              let pComeStoryChap = $("<p>");
+              console.log(dataOneStory);
+              pComeStoryChap.html(dataOneStory[0].title);
+              pComeStoryChap.attr("dataId", storyId);
+              $(".comeStory").append(pComeStoryChap);
+              clickPComeStoryChap();
+            });
           // make part
           console.log(divPart);
           const hPart = document.createElement("h3");
@@ -83,8 +93,9 @@ function getContentChap() {
           const btnNextChap = document.createElement("button");
           if (contentNextChap) {
             btnNextChap.setAttribute(
-              "onclick",
-              `toChap(${contentNextChap.chapId})`
+
+              "dataId",
+              `${contentNextChap.chapId}`
             );
           }
 
@@ -98,7 +109,10 @@ function getContentChap() {
             divBtnNextChap.appendChild(h3Done);
           }
           container.insertAdjacentElement("beforeend", divBtnNextChap);
-       $(".coverLoader").hide()
+
+          $(".coverLoader").hide();
+          clickliOfUlNavi();
+ clickBtnNextChap() 
 
         });
     });
@@ -138,5 +152,30 @@ function onClickLi(element) {
   element.addEventListener("click", () => {
     pElement.innerHTML = element.textContent;
     ul_navi_chaps.style.display = "none";
+  });
+}
+
+const toStory = (sId) => {
+  window.location.href = "/story/story.html?id=" + sId;
+};
+function clickliOfUlNavi() {
+  $(".ul_navi_chaps li").on("click", function () {
+    if ($(this).attr("dataId")) {
+      toChap($(this).attr("dataId"));
+    }
+  });
+}
+function clickPComeStoryChap() {
+  $(".comeStory p").on("click", function () {
+    if ($(this).attr("dataId")) {
+      toStory($(this).attr("dataId"));
+    }
+  });
+}
+function clickBtnNextChap() {
+  $(".btnNextChap button").on("click", function () {
+    if ($(this).attr("dataId")) {
+      toChap($(this).attr("dataId"));
+    }
   });
 }

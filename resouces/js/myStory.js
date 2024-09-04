@@ -1,7 +1,6 @@
-// const APILINKstory = "http://localhost:8000/api/v1/storys/";
-// const APILINKchap = "http://localhost:8000/api/v1/chaps/";
-const APILINKstory = 'https://voluminousdistantsubweb.ductran81.repl.co/api/v1/storys/';
-const APILINKchap = 'https://voluminousdistantsubweb.ductran81.repl.co/api/v1/chaps/';
+
+import { APILINKstory, APILINKchap } from "./api.js";
+
 document.querySelector(".coverAlertMore").style.display = "none";
 let storyIdDelete;
 let titleChange
@@ -42,7 +41,9 @@ $(window).ready(() => {
         divImgMystory.addClass("imgMystory");
         divImgMystory.css({ backgroundImage: `url(${element.urlImage})` });
         h3InfoOneMystory.text(element.title);
-        h3InfoOneMystory.attr("onclick", `toAddChap(${element.storyId})`);
+
+        h3InfoOneMystory.attr("dataid", `${element.storyId}`);
+      
         let divMoreContainer=$("<div>")
         let ulMore=$("<ul>")
         let liMoreDele=$("<li>")
@@ -54,23 +55,30 @@ $(window).ready(() => {
         iMoreEdit.addClass("fa-solid fa-pen-to-square")
         iPartMyStory.addClass("fa-solid fa-caret-down");
         liMoreEdit.append("Chỉnh sửa",iMoreEdit)
+
+        liMoreEdit.addClass("liMoreEdit")
         liMoreDele.append("Xóa",iMoreDele)
         liMoreDele.addClass("liMoreDele")
-        liMoreEdit.attr("onclick",`toEditStory('${element.storyId}')`)
+        liMoreEdit.attr("dataid",`${element.storyId}`)
+        
         ulMore.attr("id",`ulMore${element.storyId}`)
         ulMore.addClass("ulMoreMyStory")
         ulMore.append(liMoreEdit  ,liMoreDele)
         ulMore.hide()
         divMoreContainer.append(iPartMyStory,ulMore)
         liMoreDele.attr(
-          "onclick",
-          `changeTitleAlertMore(${element.storyId})`
+
+          "dataid",
+          `${element.storyId}`
         );
+    
         divInfoOneMystory.append(divImgMystory, h3InfoOneMystory);
         divPartMyStory.append(divInfoOneMystory, divMoreContainer);
         $(".container").append(divPartMyStory);
     
-        iPartMyStory.attr("onclick",`clickMore('${ulMore.prop("id")}')`)
+
+        iPartMyStory.attr("dataid",`${ulMore.prop("id")}`)
+       
         $(".coverLoader").hide()
       
       });
@@ -78,6 +86,12 @@ $(window).ready(() => {
 
       callAlertMore();
       closeMore()
+
+      clickH3InfoOneMystory()
+      clickLiMoreEdit()
+      clickIPartMyStory()
+      clickLiMoreDele()
+
     },
   });
 });
@@ -167,4 +181,41 @@ const closeMore=()=>{
   }
 
   })
+
+}
+function clickH3InfoOneMystory(){
+  $('.infoOneMystory h3').on('click',function(){
+    if($(this).attr('dataid'))
+    {
+      toAddChap($(this).attr('dataid'))
+    }
+  })
+
+}
+function clickLiMoreEdit(){
+  $('.moreOneMyStory .ulMoreMyStory .liMoreEdit').on('click',function(){
+    if($(this).attr('dataid'))
+    {
+      toEditStory($(this).attr('dataid'))
+    }
+  })
+
+}
+function clickIPartMyStory(){
+  $('.moreOneMyStory .fa-caret-down').on('click',function(){
+    if($(this).attr('dataid'))
+    {
+      clickMore($(this).attr('dataid'))
+    }
+  })
+
+}
+function clickLiMoreDele(){
+  $('.moreOneMyStory .ulMoreMyStory .liMoreDele').on('click',function(){
+    if($(this).attr('dataid'))
+    {
+      changeTitleAlertMore($(this).attr('dataid'))
+    }
+  })
+
 }

@@ -1,8 +1,6 @@
- const APILINKstory = 'https://voluminousdistantsubweb.ductran81.repl.co/api/v1/storys/';
- const APILINKchap = 'https://voluminousdistantsubweb.ductran81.repl.co/api/v1/chaps/';
 
-// const APILINKstory = "http://localhost:8000/api/v1/storys/";
-// const APILINKchap = "http://localhost:8000/api/v1/chaps/";
+
+import { APILINKstory, APILINKchap } from "./api.js";
 
 let storyId;
 let chapId;
@@ -42,7 +40,8 @@ function editChap() {
         <hr>
         <input id="titleId" type="text" name="title" placeholder="Tên chap" required>
         <textarea id="textChapId" name="" id="" cols="30" rows="30" placeholder="Kể câu chuyện của bạn" required></textarea>
-       <button type="submit" class="button" onclick="saveEditChap('titleId','urlImageID','textChapId')">Xong</button>
+
+       <button type="submit" class="button" ">Xong</button>
     </form>
 `;
 
@@ -77,15 +76,22 @@ function editChap() {
           }
        $(".coverLoader").hide()
 
+       $("form").submit(function (event) {
+        event.preventDefault();
+      });
+      $("#form button").click(saveEditChap)
         });
     });
 }
-function saveEditChap(titleId, urlImageID, textChapId) {
+
+
+function saveEditChap() {
+let titleId='titleId'
+let urlImageID= 'urlImageID'
+let textChapId='textChapId'
   let isNewData = true;
   // prevent load page
-  document.getElementById("form").addEventListener("submit", (event) => {
-    event.preventDefault();
-  });
+
   // check data changed
   const title = document.getElementById(titleId).value;
   const urlImage = document.getElementById(urlImageID).value;

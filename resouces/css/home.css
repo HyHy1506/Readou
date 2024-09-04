@@ -16,6 +16,8 @@ color: black;
     height:200px ;
   
 }
+
+
 .titleHome {
     width: 100%;
     height: 41px;
@@ -32,4 +34,12 @@ color: black;
 }
 .infoStory {
     display: none;
+
+}
+@media (max-width:800px) {
+    .titAndDes {
+        width: 50%;
+        
+      
+    }
 }

@@ -1,5 +1,7 @@
-const APILINKstory = 'https://voluminousdistantsubweb.ductran81.repl.co/api/v1/storys/';
-const APILINKchap = 'https://voluminousdistantsubweb.ductran81.repl.co/api/v1/chaps/';
+
+
+import { APILINKstory, APILINKchap } from "./api.js";
+
 let url=new URL(location.href)
 let storyId= url.searchParams.get("id")
 let oldData
@@ -21,7 +23,7 @@ $(window).ready(()=>{
             <hr>
             <input class="inputTitleEditStory"  type="text" name="title" placeholder="Tên chap" required>
             <textarea  class="textareaEditStory" name="" id="" cols="30" rows="30" placeholder="Kể câu chuyện của bạn" required></textarea>
-            <button type="submit" class="button" onclick="saveEditStory()">Xong</button>
+            <button type="submit" class="button" ">Xong</button>
 
             `)
             divPartEditStory.append(formPart)
@@ -36,15 +38,21 @@ $(window).ready(()=>{
 
             $(".coverLoader").hide()
             preventLoad()
+
+            $(".formEditStory").submit(function (event) {
+                event.preventDefault();
+              });
+              $(".formEditStory button").click(saveEditStory)
     }
 })
 })
-const preventLoad=()=>{
+function preventLoad(){
 $(".formEditStory").submit((event)=>{
     event.preventDefault()
 })
 }
-const saveEditStory=()=>{
+
+function saveEditStory(){
 let titleNew=$(".inputTitleEditStory").val()
 let urlImageNew=$(".inputImgEditStory").val()
 let descriptionNew=$(".textareaEditStory").val()
@@ -53,7 +61,8 @@ if(titleNew==oldData.title&&
 urlImageNew==oldData.urlImage&&
 descriptionNew==oldData.description.replace(/<br>/g,"\n"))
 {
-    
+
+    console.log("1")
     toMyStory()
 }else{
   $(".coverLoader").show()
@@ -78,6 +87,9 @@ Accept: "application/json, text/plain, */*",
   $(".coverLoader").fadeOut(500)
 
         console.log(res)
+
+    console.log("2")
+
         toMyStory()
     },
     error:(jqXHR, textStatus, errorThrown)=>{
@@ -87,7 +99,9 @@ Accept: "application/json, text/plain, */*",
 }
 
 }
-const toMyStory=()=>{
+
+function toMyStory(){
+
 let urlMystory="myStory.html"
 window.location.href=urlMystory
 }
